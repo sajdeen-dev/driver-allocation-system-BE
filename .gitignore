@@ -16,6 +16,7 @@ npm-debug.log*
 
 # env
 .env
+dump.rdb
 
 # IDE
 .idea
