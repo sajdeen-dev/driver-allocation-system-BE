@@ -1,0 +1,94 @@
+{
+  "info": {
+    "name": "Real-Time Driver Allocation System",
+    "description": "Ride hailing backend API collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000" },
+    { "key": "driverId", "value": "" },
+    { "key": "rideId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Drivers",
+      "item": [
+        {
+          "name": "Register Driver",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Driver\",\n  \"phone\": \"+15551234567\"\n}"
+            },
+            "url": "{{baseUrl}}/drivers"
+          }
+        },
+        {
+          "name": "Update Driver Location",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"latitude\": 12.9716,\n  \"longitude\": 77.5946\n}"
+            },
+            "url": "{{baseUrl}}/drivers/{{driverId}}/location"
+          }
+        },
+        {
+          "name": "Update Driver Status",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"ONLINE\"\n}"
+            },
+            "url": "{{baseUrl}}/drivers/{{driverId}}/status"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Rides",
+      "item": [
+        {
+          "name": "Request Ride",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"passengerId\": \"passenger-001\",\n  \"pickupLatitude\": 12.9716,\n  \"pickupLongitude\": 77.5946,\n  \"destinationLatitude\": 12.9352,\n  \"destinationLongitude\": 77.6245\n}"
+            },
+            "url": "{{baseUrl}}/rides"
+          }
+        },
+        {
+          "name": "Accept Ride",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Idempotency-Key", "value": "accept-{{driverId}}-1" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"driverId\": \"{{driverId}}\"\n}"
+            },
+            "url": "{{baseUrl}}/rides/{{rideId}}/accept"
+          }
+        },
+        {
+          "name": "Get Ride",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/rides/{{rideId}}"
+          }
+        }
+      ]
+    }
+  ]
+}
